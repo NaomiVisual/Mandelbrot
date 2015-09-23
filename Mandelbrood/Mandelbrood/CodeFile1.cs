@@ -17,10 +17,10 @@ namespace Mandelbrot
 
         public Scherm()
         {
-            Label tekst1, tekst2, tekst3, tekst4;
+            Label MiddenX, tekst2, tekst3, tekst4;
             Button knop;
 
-            tekst1 = new Label();
+            MiddenX = new Label();
             tekst2 = new Label();
             tekst3 = new Label();
             tekst4 = new Label();
@@ -30,7 +30,7 @@ namespace Mandelbrot
             this.max = new TextBox();
             knop = new Button();
 
-            tekst1.Location = new Point(20, 20);
+            MiddenX.Location = new Point(20, 20);
             tekst2.Location = new Point(20, 45);
             tekst3.Location = new Point(260, 20);
             tekst4.Location = new Point(260, 45);
@@ -40,7 +40,7 @@ namespace Mandelbrot
             this.max.Location = new Point(310, 42);
             knop.Location = new Point(360, 42);
 
-            tekst1.Size = new Size(60, 15);
+            MiddenX.Size = new Size(60, 15);
             tekst2.Size = new Size(60, 15);
             tekst3.Size = new Size(40, 15);
             tekst4.Size = new Size(40, 15);
@@ -49,13 +49,13 @@ namespace Mandelbrot
             this.schaal.Size = new Size(90, 15);
             this.max.Size = new Size(40, 15);
             knop.Size = new Size(50, 20);
-            tekst1.Text = "Midden X:";
+            MiddenX.Text = "Midden X:";
             tekst2.Text = "Midden Y:";
             tekst3.Text = "Schaal:";
             tekst4.Text = "Max:";
             knop.Text = "OK";
 
-            this.Controls.Add(tekst1);
+            this.Controls.Add(MiddenX);
             this.Controls.Add(tekst2);
             this.Controls.Add(tekst3);
             this.Controls.Add(tekst4);

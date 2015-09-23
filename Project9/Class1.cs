@@ -4,6 +4,7 @@ using System;
 
 class Mandelbrot : Form
 {
+    double middenx, middeny, schaal;
 
     public Mandelbrot()
     {
@@ -24,8 +25,10 @@ class Mandelbrot : Form
     public void muis(object o, MouseEventArgs mea)
     {
 
-        this.middelx = mea.X;
-        this.middely = mea.Y;
+        this.middenx = mea.X;
+        this.middeny = mea.Y;
+        this.schaal = schaal / 2;
+
         this.Invalidate();
 
     }
