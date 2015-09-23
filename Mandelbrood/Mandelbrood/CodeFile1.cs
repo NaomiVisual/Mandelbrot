@@ -53,6 +53,7 @@ namespace Mandelbrot
             panel.Location = new Point(20, 85);
 
             panel.BackColor = System.Drawing.Color.Black;
+            knop.BackColor = System.Drawing.Color.LightBlue;
 
             MiddenX.Size = new Size(60, 15);
             MiddenY.Size = new Size(60, 15);
