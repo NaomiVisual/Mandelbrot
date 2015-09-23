@@ -43,7 +43,7 @@ namespace Mandelbrot
             knop.Location = new Point(350, 42);
             panel.Location = new Point(20, 85);
 
-            panel.BackColor = System.Drawing.Color.Black; 
+            panel.BackColor = System.Drawing.Color.Black;
 
             MiddenX.Size = new Size(60, 15);
             MiddenY.Size = new Size(60, 15);
@@ -75,7 +75,7 @@ namespace Mandelbrot
 
             this.Text = "Mandelbrot";
             this.ClientSize = new Size(475, 500);
-            this.BackColor = System.Drawing.Color.LightGray;
+            this.BackColor = System.Drawing.Color.FromArgb(215, 250, 255);
         }
 
         public static double Mandelgetal(double x, double y)
