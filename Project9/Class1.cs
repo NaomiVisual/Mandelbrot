@@ -10,38 +10,44 @@ class Mandelbrot : Form
         this.Text = "Mandelbrot";
         this.Size = new Size(450, 400);
         this.Paint += this.tekenScherm;
+        this.MouseClick += this.muis;
 
     }
 
-    public void tekenScherm(object obj, PaintEventArgs pea)
+
+    public void tekenScherm(object o, PaintEventArgs pea)
+    {
+        this.Size = new Size(400, 400);
+
+    }
+
+    public void muis(object o, MouseEventArgs mea)
     {
 
+        this.middelx = mea.X;
+        this.middely = mea.Y;
+        this.Invalidate();
 
     }
+
 
     public static double Mandelgetal(double x, double y)
     {
 
         // mandelbrotgetal = t
         double t;
-        t = 0;
-
+ 
         double a = 0;
         double b = 0;
         double Pythagoras = 0;
-        double e;
-        double f;
 
-        while (Pythagoras <= 2)
+        for(t=0; Pythagoras <= 2 && t<100; t += 1)
         {
-
             double c = a * a - b * b + x;
             double d = 2 * a * b + y;
             Pythagoras = Math.Sqrt((c * c) + (d * d));
             a = c;
-            b = d;
-
-            t = t + 1;
+            b = d; 
         }
         return t;
 
