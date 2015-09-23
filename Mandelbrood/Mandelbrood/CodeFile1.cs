@@ -14,8 +14,17 @@ namespace Mandelbrot
     class Scherm : Form
     {
         private TextBox middenx, middeny, schaal, max;
+        int middenxcoordinaat, middenycoordinaat, invoerschaal;
 
         public Scherm()
+        {
+            this.Paint += this.tekenScherm;
+            this.MouseMove += this.muis;
+            this.MouseClick += this.klik;
+
+        }
+
+        public void tekenScherm(object o, PaintEventArgs pea)
         {
             Label MiddenX, MiddenY, Schaal, Max;
             Button knop;
@@ -24,6 +33,7 @@ namespace Mandelbrot
             MiddenY = new Label();
             Schaal = new Label();
             Max = new Label();
+
             this.middenx = new TextBox();
             this.middeny = new TextBox();
             this.schaal = new TextBox();
@@ -49,11 +59,14 @@ namespace Mandelbrot
             this.schaal.Size = new Size(90, 15);
             this.max.Size = new Size(40, 15);
             knop.Size = new Size(50, 20);
+
             MiddenX.Text = "Midden X:";
             MiddenY.Text = "Midden Y:";
             Schaal.Text = "Schaal:";
             Max.Text = "Max:";
             knop.Text = "OK";
+
+            invoerschaal = 1;
 
             this.Controls.Add(MiddenX);
             this.Controls.Add(MiddenY);
@@ -67,12 +80,28 @@ namespace Mandelbrot
 
             this.Text = "Mandelbrot";
             this.ClientSize = new Size(500, 500);
-            this.BackColor = System.Drawing.Color.LightGray;
+
+            this.BackColor = System.Drawing.Color.FromArgb(215, 250, 255);
         }
+
+        public void muis(object o, MouseEventArgs mea)
+        {
+            this.middenxcoordinaat = mea.X;
+            this.middenycoordinaat = mea.Y;
+            this.invoerschaal = invoerschaal / 2;
+            this.Invalidate();
+        }
+
+        public void klik(object o, MouseEventArgs mea)
+        {
+
+
+
+        }
+
 
         public static double Mandelgetal(double x, double y)
         {
-
             // mandelbrotgetal = t
             double t;
 
@@ -89,7 +118,6 @@ namespace Mandelbrot
                 b = d;
             }
             return t;
-
         }
     }
 }
