@@ -64,6 +64,7 @@ namespace Mandelbrot
             this.Controls.Add(schaal);
             this.Controls.Add(max);
             this.Controls.Add(knop);
+
             this.Text = "Mandelbrot";
             this.ClientSize = new Size(500, 500);
             this.BackColor = System.Drawing.Color.LightGray;
