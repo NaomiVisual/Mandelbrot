@@ -21,7 +21,6 @@ namespace Mandelbrot
             this.Paint += this.tekenScherm;
             this.MouseMove += this.muis;
             this.MouseClick += this.klik;
-
         }
 
         public void tekenScherm(object o, PaintEventArgs pea)
@@ -88,7 +87,7 @@ namespace Mandelbrot
             this.Text = "Mandelbrot";
             this.ClientSize = new Size(500, 500);
 
-            this.BackColor = System.Drawing.Color.FromArgb(215, 250, 255);
+            this.BackColor = System.Drawing.Color.FromArgb(235, 250, 255);
         }
 
         public void muis(object o, MouseEventArgs mea)
