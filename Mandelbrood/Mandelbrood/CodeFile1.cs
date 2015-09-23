@@ -17,13 +17,13 @@ namespace Mandelbrot
 
         public Scherm()
         {
-            Label MiddenX, tekst2, tekst3, tekst4;
+            Label MiddenX, MiddenY, Schaal, Max;
             Button knop;
 
             MiddenX = new Label();
-            tekst2 = new Label();
-            tekst3 = new Label();
-            tekst4 = new Label();
+            MiddenY = new Label();
+            Schaal = new Label();
+            Max = new Label();
             this.middenx = new TextBox();
             this.middeny = new TextBox();
             this.schaal = new TextBox();
@@ -31,9 +31,9 @@ namespace Mandelbrot
             knop = new Button();
 
             MiddenX.Location = new Point(20, 20);
-            tekst2.Location = new Point(20, 45);
-            tekst3.Location = new Point(260, 20);
-            tekst4.Location = new Point(260, 45);
+            MiddenY.Location = new Point(20, 45);
+            Schaal.Location = new Point(260, 20);
+            Max.Location = new Point(260, 45);
             this.middenx.Location = new Point(80, 17);
             this.middeny.Location = new Point(80, 42);
             this.schaal.Location = new Point(310, 17);
@@ -41,24 +41,24 @@ namespace Mandelbrot
             knop.Location = new Point(360, 42);
 
             MiddenX.Size = new Size(60, 15);
-            tekst2.Size = new Size(60, 15);
-            tekst3.Size = new Size(40, 15);
-            tekst4.Size = new Size(40, 15);
+            MiddenY.Size = new Size(60, 15);
+            Schaal.Size = new Size(40, 15);
+            Max.Size = new Size(40, 15);
             this.middenx.Size = new Size(160, 15);
             this.middeny.Size = new Size(160, 15);
             this.schaal.Size = new Size(90, 15);
             this.max.Size = new Size(40, 15);
             knop.Size = new Size(50, 20);
             MiddenX.Text = "Midden X:";
-            tekst2.Text = "Midden Y:";
-            tekst3.Text = "Schaal:";
-            tekst4.Text = "Max:";
+            MiddenY.Text = "Midden Y:";
+            Schaal.Text = "Schaal:";
+            Max.Text = "Max:";
             knop.Text = "OK";
 
             this.Controls.Add(MiddenX);
-            this.Controls.Add(tekst2);
-            this.Controls.Add(tekst3);
-            this.Controls.Add(tekst4);
+            this.Controls.Add(MiddenY);
+            this.Controls.Add(Schaal);
+            this.Controls.Add(Max);
             this.Controls.Add(middenx);
             this.Controls.Add(middeny);
             this.Controls.Add(schaal);
