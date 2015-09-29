@@ -11,116 +11,131 @@ namespace Mandelbrot
             Application.Run(new Scherm());
         }
     }
+
     class Scherm : Form
     {
-        private TextBox middenx, middeny, schaal, max;
-        int middenxcoordinaat, middenycoordinaat, invoerschaal;
+        //De standaardwaardes
+        double midX = 0;
+        double midY = 0;
+        double schaal = 0.01;
+        int max = 100;
 
+        //De GUI
+        TextLabel boxMidX, boxMidY, boxSchaal, boxMax;
+        Button knop;
+        PictureBox panel;
+        
         public Scherm()
         {
-            this.Paint += this.tekenScherm;
-            this.MouseMove += this.muis;
-            this.MouseClick += this.klik;
-        }
-
-        public void tekenScherm(object o, PaintEventArgs pea)
-        {
-            Label MiddenX, MiddenY, Schaal, Max;
-            Button knop;
-            Panel panel;
-
-            MiddenX = new Label();
-            MiddenY = new Label();
-            Schaal = new Label();
-            Max = new Label();
-
-            this.middenx = new TextBox();
-            this.middeny = new TextBox();
-            this.schaal = new TextBox();
-            this.max = new TextBox();
-            knop = new Button();
-            panel = new Panel();
-
-            MiddenX.Location = new Point(20, 20);
-            MiddenY.Location = new Point(20, 45);
-            Schaal.Location = new Point(250, 20);
-            Max.Location = new Point(250, 45);
-            this.middenx.Location = new Point(80, 17);
-            this.middeny.Location = new Point(80, 42);
-            this.schaal.Location = new Point(300, 17);
-            this.max.Location = new Point(300, 42);
-            knop.Location = new Point(350, 42);
-            panel.Location = new Point(20, 85);
-
-            panel.BackColor = System.Drawing.Color.Black;
-            knop.BackColor = System.Drawing.Color.LightBlue;
-
-            MiddenX.Size = new Size(60, 15);
-            MiddenY.Size = new Size(60, 15);
-            Schaal.Size = new Size(40, 15);
-            Max.Size = new Size(40, 15);
-            this.middenx.Size = new Size(150, 15);
-            this.middeny.Size = new Size(150, 15);
-            this.schaal.Size = new Size(90, 15);
-            this.max.Size = new Size(40, 15);
-            knop.Size = new Size(50, 20);
-            panel.Size = new Size(400, 400);
-
-            MiddenX.Text = "Midden X:";
-            MiddenY.Text = "Midden Y:";
-            Schaal.Text = "Schaal:";
-            Max.Text = "Max:";
-            knop.Text = "OK";
-
-            invoerschaal = 1;
-
-            this.Controls.Add(MiddenX);
-            this.Controls.Add(MiddenY);
-            this.Controls.Add(Schaal);
-            this.Controls.Add(Max);
-            this.Controls.Add(middenx);
-            this.Controls.Add(middeny);
-            this.Controls.Add(schaal);
-            this.Controls.Add(max);
-            this.Controls.Add(knop);
-            this.Controls.Add(panel);
-
+            //Scherm
             this.Text = "Mandelbrot";
             this.ClientSize = new Size(500, 500);
+            this.BackColor = Color.FromArgb(235, 250, 255);
 
-            this.BackColor = System.Drawing.Color.FromArgb(235, 250, 255);
+            //Text-Label setup
+            this.boxMidX = new TextLabel(this.Controls,
+                new Point(80, 17), new Size(150, 15), midX.ToString(),
+                new Point(20, 20), new Size(60, 15), "Midden X");
+            this.boxMidY = new TextLabel(this.Controls,
+                new Point(80, 42), new Size(150, 15), midY.ToString(),
+                new Point(20, 45), new Size(60, 15), "Midden Y");
+            this.boxSchaal = new TextLabel(this.Controls,
+                new Point(300, 17), new Size(90, 15), schaal.ToString(),
+                new Point(250, 20), new Size(40, 15), "Schaal");
+            this.boxMax = new TextLabel(this.Controls,
+                new Point(300, 42), new Size(40, 15), max.ToString(),
+                new Point(250, 45), new Size(40, 15), "Max");
+            
+            //OK-knop setup
+            this.knop = new Button();
+            this.knop.Location = new Point(350, 42);
+            this.knop.Size = new Size(50, 20);
+            this.Controls.Add(knop);
+            this.knop.Click += this.Klik;
+            this.knop.BackColor = Color.LightBlue;
+            this.knop.Text = "Ok";
+
+            //Panel setup
+            this.panel = new PictureBox();
+            this.panel.Location = new Point(20, 85);
+            this.panel.Size = new Size(400, 400);
+            this.Controls.Add(panel);
+            this.panel.Click += this.Muis;
+
+
+            DrawMandelbrot();
         }
 
-        public void muis(object o, MouseEventArgs mea)
+        public void DrawMandelbrot()
         {
-            this.middenxcoordinaat = mea.X;
-            this.middenycoordinaat = mea.Y;
-            this.invoerschaal = invoerschaal / 2;
+            Bitmap image = new Bitmap(400, 400);
+
+            for (int i = 0; i < image.Width; i++)
+                for (int j = 0; j < image.Height; j++)
+                {
+                    Color newcolor;
+
+                    double x = i * this.schaal - image.Width * this.schaal / 2 + this.midX;
+                    double y = j * this.schaal - image.Height * this.schaal / 2 - this.midY;
+
+                    double t = Mandelgetal(x, y);
+                    if (t % 2 == 0)
+                        newcolor = Color.Black;
+                    else
+                        newcolor = Color.White;
+
+                    image.SetPixel(i, j, newcolor);
+                }
+
+            this.panel.Image = image;
+        }
+
+        public void Muis(object o, EventArgs ea)
+        {
+            double k = double.Parse(this.boxSchaal.Text);
+            k /= 2;
+            this.schaal = k;
+            this.boxSchaal.Text = k.ToString();
+
+            double x = double.Parse(this.boxSchaal.Text);
+            x *= Cursor.Position.X;
+            this.boxMidX.Text = x.ToString();
+
+            double y = double.Parse(this.boxSchaal.Text);
+            y *= Cursor.Position.Y;
+            this.boxMidY.Text = x.ToString();
+            
+
             this.Invalidate();
+            //DrawMandelbrot();
         }
-
-        public void klik(object o, MouseEventArgs mea)
+        
+        public void Klik(object o, EventArgs e)
         {
+            this.midX = double.Parse(this.boxMidX.Text);
+            this.midY = double.Parse(this.boxMidY.Text);
+            this.schaal = double.Parse(this.boxSchaal.Text);
+            this.max = int.Parse(this.boxMax.Text);
 
-
-
+            DrawMandelbrot();
         }
-
-
-        public static double Mandelgetal(double x, double y)
+        
+        public double Mandelgetal(double x, double y)
         {
-            // mandelbrotgetal = t
+            //Het mandelbrotgetal
             double t;
 
             double a = 0;
             double b = 0;
-            double Pythagoras = 0;
+            double pythagoras = 0;
 
-            for (t = 0; Pythagoras <= 2 && t < 100; t += 1)
+            //Mandelbrot loop
+            for (t = 0; pythagoras <= 2 && t < this.max; t ++)
             {
                 double c = a * a - b * b + x;
                 double d = 2 * a * b + y;
-                Pythagoras = Math.Sqrt((c * c) + (d * d));
+                pythagoras = Math.Sqrt((c * c) + (d * d));
+
                 a = c;
                 b = d;
             }
