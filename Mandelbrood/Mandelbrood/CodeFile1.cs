@@ -60,7 +60,7 @@ namespace Mandelbrot
             this.panel.Location = new Point(20, 85);
             this.panel.Size = new Size(400, 400);
             this.Controls.Add(panel);
-            this.panel.Click += this.Muis;
+            this.panel.MouseClick += this.Muis;
 
 
             DrawMandelbrot();
@@ -90,21 +90,29 @@ namespace Mandelbrot
             this.panel.Image = image;
         }
 
-        public void Muis(object o, EventArgs ea)
+        public void Muis(object o, MouseEventArgs mea)
         {
             double k = double.Parse(this.boxSchaal.Text);
             k /= 2;
             this.schaal = k;
             this.boxSchaal.Text = k.ToString();
 
-            double x = double.Parse(this.boxSchaal.Text);
-            x *= Cursor.Position.X;
+            double x = double.Parse(this.boxMidX.Text);
+            x = mea.X * k + this.panel.Size.Width / 4 * k;
             this.boxMidX.Text = x.ToString();
 
-            double y = double.Parse(this.boxSchaal.Text);
-            y *= Cursor.Position.Y;
-            this.boxMidY.Text = x.ToString();
-            
+            double y = double.Parse(this.boxMidY.Text);
+            y = mea.Y * k + this.panel.Size.Height / 4 * k;
+            this.boxMidY.Text = y.ToString();
+
+
+            this.midX = double.Parse(this.boxMidX.Text);
+            this.midY = double.Parse(this.boxMidY.Text);
+            this.schaal = double.Parse(this.boxSchaal.Text);
+            this.max = int.Parse(this.boxMax.Text);
+
+            DrawMandelbrot();
+
 
             this.Invalidate();
             //DrawMandelbrot();
