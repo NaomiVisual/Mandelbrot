@@ -24,32 +24,33 @@ namespace Mandelbrot
         TextLabel boxMidX, boxMidY, boxSchaal, boxMax;
         Button knop;
         PictureBox panel;
+        ComboBox voorbeeldlijst;
         
         public Scherm()
         {
             //Scherm
             this.Text = "Mandelbrot";
-            this.ClientSize = new Size(500, 500);
+            this.ClientSize = new Size(440, 500);
             this.BackColor = Color.FromArgb(235, 250, 255);
 
             //Text-Label setup
             this.boxMidX = new TextLabel(this.Controls,
-                new Point(80, 17), new Size(150, 15), midX.ToString(),
+                new Point(80, 17), new Size(70, 15), midX.ToString(),
                 new Point(20, 20), new Size(60, 15), "Midden X");
             this.boxMidY = new TextLabel(this.Controls,
-                new Point(80, 42), new Size(150, 15), midY.ToString(),
+                new Point(80, 42), new Size(70, 15), midY.ToString(),
                 new Point(20, 45), new Size(60, 15), "Midden Y");
             this.boxSchaal = new TextLabel(this.Controls,
-                new Point(300, 17), new Size(90, 15), schaal.ToString(),
-                new Point(250, 20), new Size(40, 15), "Schaal");
+                new Point(220, 17), new Size(90, 15), schaal.ToString(),
+                new Point(170, 20), new Size(40, 15), "Schaal");
             this.boxMax = new TextLabel(this.Controls,
-                new Point(300, 42), new Size(40, 15), max.ToString(),
-                new Point(250, 45), new Size(40, 15), "Max");
+                new Point(220, 42), new Size(40, 15), max.ToString(),
+                new Point(170, 45), new Size(40, 15), "Max");
             
             //OK-knop setup
             this.knop = new Button();
-            this.knop.Location = new Point(350, 42);
-            this.knop.Size = new Size(50, 20);
+            this.knop.Location = new Point(270, 42);
+            this.knop.Size = new Size(40, 20);
             this.Controls.Add(knop);
             this.knop.Click += this.Klik;
             this.knop.BackColor = Color.LightBlue;
@@ -62,6 +63,15 @@ namespace Mandelbrot
             this.Controls.Add(panel);
             this.panel.MouseClick += this.Muis;
 
+            //Kleurenlijst setup
+            this.voorbeeldlijst = new ComboBox();
+            this.voorbeeldlijst.Location = new Point(340, 17);
+            this.voorbeeldlijst.Size = new Size(80, 20);
+            this.Controls.Add(voorbeeldlijst);
+            this.voorbeeldlijst.Items.Add("Standaard");
+            this.voorbeeldlijst.Items.Add("Nationalisme");
+            this.voorbeeldlijst.Items.Add("Sterrenhemel");
+            this.voorbeeldlijst.Items.Add("Bloemenwei");
 
             DrawMandelbrot();
         }
