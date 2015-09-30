@@ -12,6 +12,7 @@ namespace Mandelbrot
         }
     }
 
+
     class Scherm : Form
     {
         //De standaardwaardes
@@ -25,9 +26,10 @@ namespace Mandelbrot
         TextLabel boxMidX, boxMidY, boxSchaal, boxMax;
         Button knop;
         PictureBox panel;
-        ComboBox kleurlijst;
+        ComboBox kleurlijst, voorbeelden;
 
 
+        // In de methode Scherm wordt de user-interface gemaakt.
         public Scherm()
         {
             //Scherm
@@ -35,23 +37,23 @@ namespace Mandelbrot
             this.ClientSize = new Size(440, 500);
             this.BackColor = Color.FromArgb(235, 250, 255);
 
-            //Text-Label setup
+            //TextBox-Label setup
             this.boxMidX = new TextLabel(this.Controls,
-                new Point(80, 17), new Size(70, 15), midX.ToString(),
-                new Point(20, 20), new Size(60, 15), "Midden X");
+                new Point(70, 17), new Size(60, 15), midX.ToString(),
+                new Point(20, 20), new Size(50, 15), "Midden X");
             this.boxMidY = new TextLabel(this.Controls,
-                new Point(80, 42), new Size(70, 15), midY.ToString(),
-                new Point(20, 45), new Size(60, 15), "Midden Y");
+                new Point(70, 42), new Size(60, 15), midY.ToString(),
+                new Point(20, 45), new Size(50, 15), "Midden Y");
             this.boxSchaal = new TextLabel(this.Controls,
-                new Point(220, 17), new Size(90, 15), schaal.ToString(),
-                new Point(170, 20), new Size(40, 15), "Schaal");
+                new Point(200, 17), new Size(90, 15), schaal.ToString(),
+                new Point(150, 20), new Size(40, 15), "Schaal");
             this.boxMax = new TextLabel(this.Controls,
-                new Point(220, 42), new Size(40, 15), max.ToString(),
-                new Point(170, 45), new Size(40, 15), "Max");
+                new Point(200, 42), new Size(40, 15), max.ToString(),
+                new Point(150, 45), new Size(40, 15), "Max");
 
             //OK-knop setup
             this.knop = new Button();
-            this.knop.Location = new Point(270, 42);
+            this.knop.Location = new Point(250, 42);
             this.knop.Size = new Size(40, 20);
             this.Controls.Add(knop);
             this.knop.Click += this.Klik;
@@ -67,19 +69,34 @@ namespace Mandelbrot
 
             //Kleurenlijst setup
             this.kleurlijst = new ComboBox();
-            this.kleurlijst.Location = new Point(340, 17);
-            this.kleurlijst.Size = new Size(80, 20);
+            this.kleurlijst.Location = new Point(320, 17);
+            this.kleurlijst.Size = new Size(100, 20);
             this.Controls.Add(kleurlijst);
             this.kleurlijst.Items.Add("Standaard");
             this.kleurlijst.Items.Add("Grijstinten");
             this.kleurlijst.Items.Add("Paarstinten");
             this.kleurlijst.Items.Add("Vuur");
             this.kleurlijst.Items.Add("Nationalisme");
-            this.kleurlijst.Text = "kleuren";
+            this.kleurlijst.Text = "Kleuren";
+
+            //Voorbeelden setup
+            this.voorbeelden = new ComboBox();
+            this.voorbeelden.Location = new Point(320, 42);
+            this.voorbeelden.Size = new Size(100, 20);
+            this.Controls.Add(voorbeelden);
+            this.voorbeelden.Items.Add("Zebra");
+            this.voorbeelden.Items.Add("ehh");
+            this.voorbeelden.Items.Add("ehhh");
+            this.voorbeelden.Items.Add("ehhhh");
+            this.voorbeelden.Text = "Voorbeelden";
 
             DrawMandelbrot();
         }
 
+
+        /* De onderstaande methode transleert de coordinaten van de panel naar coordinaten in
+           een assenstelsel waarbij de x- en y-waarden van -2 tot 2 lopen.Vervolgens roept hij
+           de methode Kleurenschema aan die kleurwaardes toekent aan de mandelgetallen. */
         public void DrawMandelbrot()
         {
             Bitmap image = new Bitmap(400, 400);
@@ -87,21 +104,21 @@ namespace Mandelbrot
             for (int i = 0; i < image.Width; i++)
                 for (int j = 0; j < image.Height; j++)
                 {
-
                     double x = i * this.schaal - image.Width * this.schaal / 2 + this.midX;
                     double y = j * this.schaal - image.Height * this.schaal / 2 - this.midY;
 
                     int t = Mandelgetal(x, y);
 
-
-
-                    image.SetPixel(i, j, this.kleurenschema(t));
+                    image.SetPixel(i, j, this.Kleurenschema(t));
                 }
-
-            this.panel.Image = image;
-            
+            this.panel.Image = image; 
         }
 
+
+        /* Met de mehode Muis wordt het assenstelsel getransleert naar een assenstelsel.
+           Het nieuwe middelpunt is het punt waar je met de muis in het panel klikt;
+           de schaal wordt twee keer zo klein. 
+           blablablablabla*/
         public void Muis(object o, MouseEventArgs mea)
         {
             double x = double.Parse(this.boxMidX.Text);
@@ -162,10 +179,8 @@ namespace Mandelbrot
             return t;
         }
 
-        public Color kleurenschema(int mandelgetal)
+        public Color Kleurenschema(int mandelgetal)
         {
-            int maxF = int.Parse(boxMax.Text);
-
             this.kleurnummer = this.kleurlijst.SelectedIndex;
 
             switch (this.kleurnummer)
@@ -176,37 +191,34 @@ namespace Mandelbrot
                         return Color.Black;
                     else return Color.White;
                 case 1:
-                    if (mandelgetal != maxF)
+                    if (mandelgetal != this.max)
                         return Color.FromArgb(mandelgetal % 128 * 2, mandelgetal % 128 * 2, mandelgetal % 128 * 2);
                     else return Color.Black;
                 case 2:
-                    if (mandelgetal != maxF)
+                    if (mandelgetal != this.max)
                         return Color.FromArgb(mandelgetal % 25 * 10, mandelgetal % 1, mandelgetal % 70 * 3);
                     else return Color.Black;
                 case 3:
-                    if (mandelgetal != maxF)
+                    if (mandelgetal != this.max)
                         return Color.FromArgb(255, mandelgetal % 10 * 20, 0);
                     else return Color.Red;
                 case 4:
-                    if (mandelgetal != maxF)
-
+                    if (mandelgetal != this.max)
                     {
                         switch (mandelgetal % 4)
                         {
                             case 1:
-                                return Color.OrangeRed;
+                                return Color.FromArgb(255, 90, 20);
                             case 2:
                                 return Color.Blue;
                             case 3:
                                 return Color.White;
                             default:
                                 return Color.Red;
-
                         }
                     }
                     else
-                        return Color.OrangeRed;
-                    
+                        return Color.FromArgb(255, 90, 20);
             }
 
         }
