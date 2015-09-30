@@ -13,7 +13,7 @@ namespace Mandelbrot
         TextBox box;
         Label label;
 
-        //Met de onderstaande klasse kunnen de verschillende textboxen met hun bijbehorende labels worden aangeroepen.
+        //Met de onderstaande klasse kunnen de verschillende TextBoxen met hun bijbehorende Labels worden aangeroepen.
         public TextLabel(Control.ControlCollection controls,
             Point boxLocation, Size boxSize, string boxText,
             Point labelLocation, Size labelSize, string labelText)
@@ -32,6 +32,7 @@ namespace Mandelbrot
             controls.Add(box);
             controls.Add(label);
         }
+
 
         //Met behulp van deze methode kunnen de waarden uit de textboxen worden opgeslagen of opgevraagd.
         public string Text

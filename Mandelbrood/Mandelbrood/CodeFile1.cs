@@ -25,11 +25,11 @@ namespace Mandelbrot
         //De GUI
         TextLabel boxMidX, boxMidY, boxSchaal, boxMax;
         Button knop;
-        PictureBox panel;
-        ComboBox kleurlijst, voorbeelden;
+        PictureBox figuur;
+        ComboBox kleurenlijst, voorbeeldenlijst;
 
 
-        // In de methode Scherm wordt de user-interface gemaakt.
+        // In de methode Scherm wordt de userinterface gemaakt.
         public Scherm()
         {
             //Scherm
@@ -60,46 +60,52 @@ namespace Mandelbrot
             this.knop.BackColor = Color.LightBlue;
             this.knop.Text = "Ok";
 
-            //Panel setup
-            this.panel = new PictureBox();
-            this.panel.Location = new Point(20, 85);
-            this.panel.Size = new Size(400, 400);
-            this.Controls.Add(panel);
-            this.panel.MouseClick += this.Muis;
+            //PictureBox setup
+            this.figuur = new PictureBox();
+            this.figuur.Location = new Point(20, 85);
+            this.figuur.Size = new Size(400, 400);
+            this.Controls.Add(figuur);
+            this.figuur.MouseClick += this.Muis;
 
             //Kleurenlijst setup
-            this.kleurlijst = new ComboBox();
-            this.kleurlijst.Location = new Point(320, 17);
-            this.kleurlijst.Size = new Size(100, 20);
-            this.Controls.Add(kleurlijst);
-            this.kleurlijst.Items.Add("Standaard");
-            this.kleurlijst.Items.Add("Grijstinten");
-            this.kleurlijst.Items.Add("Paarstinten");
-            this.kleurlijst.Items.Add("Vuur");
-            this.kleurlijst.Items.Add("Nationalisme");
-            this.kleurlijst.Text = "Kleuren";
+            this.kleurenlijst = new ComboBox();
+            this.kleurenlijst.Location = new Point(320, 17);
+            this.kleurenlijst.Size = new Size(100, 20);
+            this.Controls.Add(kleurenlijst);
+            this.kleurenlijst.Items.Add("Standaard");
+            this.kleurenlijst.Items.Add("Grijstinten");
+            this.kleurenlijst.Items.Add("Paarstinten");
+            this.kleurenlijst.Items.Add("Vuur");
+            this.kleurenlijst.Items.Add("Nationalisme");
+            this.kleurenlijst.Text = "Kleuren";
 
             //Voorbeelden setup
-            this.voorbeelden = new ComboBox();
-            this.voorbeelden.Location = new Point(320, 42);
-            this.voorbeelden.Size = new Size(100, 20);
-            this.Controls.Add(voorbeelden);
-            this.voorbeelden.Items.Add("Zebra");
-            this.voorbeelden.Items.Add("ehh");
-            this.voorbeelden.Items.Add("ehhh");
-            this.voorbeelden.Items.Add("ehhhh");
-            this.voorbeelden.Text = "Voorbeelden";
+            this.voorbeeldenlijst = new ComboBox();
+            this.voorbeeldenlijst.Location = new Point(320, 42);
+            this.voorbeeldenlijst.Size = new Size(100, 20);
+            this.Controls.Add(voorbeeldenlijst);
+            this.voorbeeldenlijst.Items.Add("Zebra");
+            this.voorbeeldenlijst.Items.Add("Sneeuwvlok");
+            this.voorbeeldenlijst.Items.Add("Kruis+");
+            this.voorbeeldenlijst.Items.Add("Vlammen");
+            this.voorbeeldenlijst.Items.Add("Vlaggen");
+            this.voorbeeldenlijst.Items.Add("Neuronen");
+            this.voorbeeldenlijst.Text = "Voorbeelden";
+            this.voorbeeldenlijst.SelectedIndexChanged += Voorbeeldenschema;
 
             DrawMandelbrot();
         }
 
 
-        /* De onderstaande methode transleert de coordinaten van de panel naar coordinaten in
-           een assenstelsel waarbij de x- en y-waarden van -2 tot 2 lopen.Vervolgens roept hij
-           de methode Kleurenschema aan die kleurwaardes toekent aan de mandelgetallen. */
+        /* De onderstaande methode transleert de coordinaten van de PictureBox naar coordinaten in
+           een assenstelsel waarbij de x- en y-waarden van -2 tot 2 lopen. Vervolgens roept hij
+           de methode Kleurenschema aan die kleurwaarden toekent aan de mandelgetallen. */
         public void DrawMandelbrot()
         {
             Bitmap image = new Bitmap(400, 400);
+
+            /* De variablen i en j staan voor de coordinaten van de PictureBox.
+               Onze PictureBox is 400 bij 400, dus i en j lopen van 0 tot 400. */
 
             for (int i = 0; i < image.Width; i++)
                 for (int j = 0; j < image.Height; j++)
@@ -111,14 +117,13 @@ namespace Mandelbrot
 
                     image.SetPixel(i, j, this.Kleurenschema(t));
                 }
-            this.panel.Image = image; 
+            this.figuur.Image = image; 
         }
 
 
-        /* Met de mehode Muis wordt het assenstelsel getransleert naar een assenstelsel.
-           Het nieuwe middelpunt is het punt waar je met de muis in het panel klikt;
-           de schaal wordt twee keer zo klein. 
-           blablablablabla*/
+        /* Met de methode Muis wordt het assenstelsel getransleerd. Het nieuwe middelpunt is het punt
+           waar je met de muis in het panel klikt; de schaal wordt twee keer zo klein. Daarna worden
+           de nieuwe waarden ingevuld in de TextBoxen en wordt het Mandelbrotfiguur opnieuw getekend. */
         public void Muis(object o, MouseEventArgs mea)
         {
             double x = double.Parse(this.boxMidX.Text);
@@ -134,19 +139,18 @@ namespace Mandelbrot
             this.schaal = k;
             this.boxSchaal.Text = k.ToString();
 
-
             this.midX = double.Parse(this.boxMidX.Text);
             this.midY = double.Parse(this.boxMidY.Text);
             this.schaal = double.Parse(this.boxSchaal.Text);
-            this.max = int.Parse(this.boxMax.Text);
 
             DrawMandelbrot();
 
-
             this.Invalidate();
-            //DrawMandelbrot();
         }
 
+
+        /* Wanneer op de OK-knop gedrukt wordt, wordt deze methode aangeroepen. Hierdoor wordt het
+           Mandelbrotfiguur opnieuw getekend met de ingevoerde waarden. */
         public void Klik(object o, EventArgs e)
         {
             this.midX = double.Parse(this.boxMidX.Text);
@@ -157,6 +161,9 @@ namespace Mandelbrot
             DrawMandelbrot();
         }
 
+
+        /* In de volgende methode wordt het mandelgetal berekend van de coordinaten die hij meekrijgt
+           wanneer hij wordt aangeroepen. Vervolgens geeft hij deze berekende waarde terug. */
         public int Mandelgetal(double x, double y)
         {
             //Het mandelbrotgetal
@@ -179,9 +186,11 @@ namespace Mandelbrot
             return t;
         }
 
+
+        // Door deze methode is het mogelijk om uit vijf verschillende kleurschema's te kiezen.
         public Color Kleurenschema(int mandelgetal)
         {
-            this.kleurnummer = this.kleurlijst.SelectedIndex;
+            this.kleurnummer = this.kleurenlijst.SelectedIndex;
 
             switch (this.kleurnummer)
             {
@@ -220,7 +229,62 @@ namespace Mandelbrot
                     else
                         return Color.FromArgb(255, 90, 20);
             }
+        }
 
+
+        // Deze methode geeft de optie om voorbeelden te laten zien.
+        public void Voorbeeldenschema(object o, EventArgs ea)
+        {
+            int voorbeeldnummer = this.voorbeeldenlijst.SelectedIndex;
+
+            switch (voorbeeldnummer)
+            {
+                default:
+                case 0:
+                    this.boxMidX.Text = "-0.15";
+                    this.boxMidY.Text = "0.9";
+                    this.boxSchaal.Text = "0.00001";
+                    this.boxMax.Text = "100";
+                    this.kleurenlijst.SelectedIndex = 0;
+                    break;
+                case 1:
+                    this.boxMidX.Text = "-0.108440699577332";
+                    this.boxMidY.Text = "0.901937417984009";
+                    this.boxSchaal.Text = "1.19209289550782E-09";
+                    this.boxMax.Text = "250";
+                    this.kleurenlijst.SelectedIndex = 1;
+                    break;
+                case 2:
+                    this.boxMidX.Text = "0.362169662421875";
+                    this.boxMidY.Text = "0.560195757734375";
+                    this.boxSchaal.Text = "3E-08";
+                    this.boxMax.Text = "100";
+                    this.kleurenlijst.SelectedIndex = 2;
+                    break;
+                case 3:
+                    this.boxMidX.Text = "-1.5";
+                    this.boxMidY.Text = "0";
+                    this.boxSchaal.Text = "0.0009";
+                    this.boxMax.Text = "200";
+                    this.kleurenlijst.SelectedIndex = 3;
+                    break;
+                case 4:
+                    this.boxMidX.Text = "0.250671005249023";
+                    this.boxMidY.Text = "0";
+                    this.boxSchaal.Text = "1.9073486328125E-07";
+                    this.boxMax.Text = "500";
+                    this.kleurenlijst.SelectedIndex = 4;
+                    break;
+                case 5:
+                    this.boxMidX.Text = "-0.17611328125";
+                    this.boxMidY.Text = "1.0855";
+                    this.boxSchaal.Text = "4.8828125E-05";
+                    this.boxMax.Text = "500";
+                    this.kleurenlijst.SelectedIndex = 2;
+                    break;
+            }
+            this.knop.PerformClick();
+            this.DrawMandelbrot();
         }
     }
 }
