@@ -39,21 +39,21 @@ namespace Mandelbrot
 
             //TextBox-Label setup
             this.boxMidX = new TextLabel(this.Controls,
-                new Point(70, 17), new Size(60, 15), midX.ToString(),
-                new Point(20, 20), new Size(50, 15), "Midden X");
+                new Point(80, 17), new Size(60, 15), midX.ToString(),
+                new Point(20, 20), new Size(50, 15), "MiddenX");
             this.boxMidY = new TextLabel(this.Controls,
-                new Point(70, 42), new Size(60, 15), midY.ToString(),
-                new Point(20, 45), new Size(50, 15), "Midden Y");
+                new Point(80, 42), new Size(60, 15), midY.ToString(),
+                new Point(20, 45), new Size(50, 15), "MiddenY");
             this.boxSchaal = new TextLabel(this.Controls,
-                new Point(200, 17), new Size(90, 15), schaal.ToString(),
-                new Point(150, 20), new Size(40, 15), "Schaal");
+                new Point(210, 17), new Size(90, 15), schaal.ToString(),
+                new Point(160, 20), new Size(40, 15), "Schaal");
             this.boxMax = new TextLabel(this.Controls,
-                new Point(200, 42), new Size(40, 15), max.ToString(),
-                new Point(150, 45), new Size(40, 15), "Max");
+                new Point(210, 42), new Size(40, 15), max.ToString(),
+                new Point(160, 45), new Size(40, 15), "Max");
 
             //OK-knop setup
             this.knop = new Button();
-            this.knop.Location = new Point(250, 42);
+            this.knop.Location = new Point(260, 42);
             this.knop.Size = new Size(40, 20);
             this.Controls.Add(knop);
             this.knop.Click += this.Klik;
@@ -69,8 +69,8 @@ namespace Mandelbrot
 
             //Kleurenlijst setup
             this.kleurenlijst = new ComboBox();
-            this.kleurenlijst.Location = new Point(320, 17);
-            this.kleurenlijst.Size = new Size(100, 20);
+            this.kleurenlijst.Location = new Point(330, 17);
+            this.kleurenlijst.Size = new Size(90, 20);
             this.Controls.Add(kleurenlijst);
             this.kleurenlijst.Items.Add("Standaard");
             this.kleurenlijst.Items.Add("Grijstinten");
@@ -81,8 +81,8 @@ namespace Mandelbrot
 
             //Voorbeelden setup
             this.voorbeeldenlijst = new ComboBox();
-            this.voorbeeldenlijst.Location = new Point(320, 42);
-            this.voorbeeldenlijst.Size = new Size(100, 20);
+            this.voorbeeldenlijst.Location = new Point(330, 42);
+            this.voorbeeldenlijst.Size = new Size(90, 20);
             this.Controls.Add(voorbeeldenlijst);
             this.voorbeeldenlijst.Items.Add("Zebra");
             this.voorbeeldenlijst.Items.Add("Sneeuwvlok");
